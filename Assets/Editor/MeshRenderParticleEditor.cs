@@ -20,17 +20,30 @@ public class MeshRenderParticleEditor : Editor
         if (m_ParticleSystem != null)
         {
             var targetRender = target as MeshParticleRender;
+            ParticleSystemRenderer psRender = m_ParticleSystem.renderer as ParticleSystemRenderer;
 
-            if (targetRender.particleMaterials.Length <= 0)
+            if (psRender.renderMode == ParticleSystemRenderMode.Mesh)
             {
-                if (m_ParticleSystem)
-                {
-                    targetRender.particleMaterials = new Material[1];
-                    targetRender.particleMaterials[0] = m_ParticleSystem.renderer.sharedMaterial;
-                }
+                CopyFromParticleSystem();
             }
-
-            targetRender.maximumParticles = m_ParticleSystem.maxParticles;
         }
+    }
+
+    private void CopyFromParticleSystem()
+    {
+        var targetRender = target as MeshParticleRender;
+        ParticleSystemRenderer psRender = m_ParticleSystem.renderer as ParticleSystemRenderer;
+        targetRender.particleMesh = psRender.mesh;
+
+        if (targetRender.particleMaterials.Length <= 0)
+        {
+            if (m_ParticleSystem)
+            {
+                targetRender.particleMaterials = new Material[1];
+                targetRender.particleMaterials[0] = psRender.sharedMaterial;
+            }
+        }
+
+        targetRender.maximumParticles = m_ParticleSystem.maxParticles;
     }
 }

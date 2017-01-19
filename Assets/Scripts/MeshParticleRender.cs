@@ -1,14 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MeshParticleRender : MonoBehaviour
 {
+    [System.Serializable]
+    public struct ColorData
+    {
+        public float location;
+        public Color color;
+    }
+
+    [System.Serializable]
+    public struct AlphaData
+    {
+        public float location;
+        public float alpha;
+    }
+
     private ParticleSystem m_ParticleSystem;
     public Mesh particleMesh;
     public int maximumParticles = 1;
     public Material[] particleMaterials;
     GameObject[] particlePool;
     ParticleSystem.Particle[] m_Particles;
+
+    public GradientColorKey GradColorKey;
+
+    //[SerializeField]
+    public List<ColorData> m_ColorKeys;
+
+    [SerializeField]
+    private List<AlphaData> m_AlphaKeys;
 
     // Use this for initialization
     void Start()
