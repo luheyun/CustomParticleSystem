@@ -71,7 +71,7 @@ public class MeshParticleRender : MonoBehaviour
                 particleObject.transform.localRotation = Quaternion.AngleAxis(p.rotation, p.axisOfRotation);
                 float scale = p.size;
                 particleObject.transform.localScale = new Vector3(scale, scale, scale);
-
+                
                 MeshRenderer meshRender = particleObject.renderer as MeshRenderer;
                 Color col = p.color;
                 col.a = p.lifetime / p.startLifetime;
