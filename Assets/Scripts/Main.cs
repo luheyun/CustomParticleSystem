@@ -4,7 +4,6 @@ using System.Collections;
 public class Main : MonoBehaviour {
     public Object prefab;
     public int Count = 100;
-    public GameObject cube;
 
 	// Use this for initialization
 	void Start () {
@@ -22,17 +21,6 @@ public class Main : MonoBehaviour {
             //        Material m = psList[j].renderer.material;
             //    }
             //}
-        }
-
-        if (cube)
-        {
-            cube.SetActive(true);
-            GameObject go = GameObject.Find("/Cube");
-
-            if (go != null)
-                go.SetActive(false);
-            else
-                cube.SetActive(true);
         }
 	}
 	
