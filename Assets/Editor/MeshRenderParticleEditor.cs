@@ -6,7 +6,6 @@ public class MeshRenderParticleEditor : Editor
 {
     SerializedProperty particleMaterials;
     ParticleSystem m_ParticleSystem;
-    Gradient m_Grad;
 
     void OnEnable()
     {
@@ -18,9 +17,10 @@ public class MeshRenderParticleEditor : Editor
     {
         base.OnInspectorGUI();
 
+        var targetRender = target as MeshParticleRender;
+
         if (m_ParticleSystem != null)
         {
-            var targetRender = target as MeshParticleRender;
             ParticleSystemRenderer psRender = m_ParticleSystem.renderer as ParticleSystemRenderer;
 
             if (psRender.renderMode == ParticleSystemRenderMode.Mesh)
@@ -29,7 +29,7 @@ public class MeshRenderParticleEditor : Editor
             }
         }
 
-        m_Grad = GUIGradientField.GradientField("Color over Lifetime", m_Grad);
+        targetRender.Grad = GUIGradientField.GradientField("Color over Lifetime", targetRender.Grad);
     }
 
     private void CopyFromParticleSystem()

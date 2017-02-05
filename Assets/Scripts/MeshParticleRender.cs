@@ -4,19 +4,8 @@ using System.Collections.Generic;
 
 public class MeshParticleRender : MonoBehaviour
 {
-    [System.Serializable]
-    public struct ColorData
-    {
-        public float location;
-        public Color color;
-    }
-
-    [System.Serializable]
-    public struct AlphaData
-    {
-        public float location;
-        public float alpha;
-    }
+    [HideInInspector]
+    public Gradient Grad;
 
     private ParticleSystem m_ParticleSystem;
     public Mesh particleMesh;
@@ -24,14 +13,6 @@ public class MeshParticleRender : MonoBehaviour
     public Material[] particleMaterials;
     GameObject[] particlePool;
     ParticleSystem.Particle[] m_Particles;
-
-    public GradientColorKey GradColorKey;
-
-    //[SerializeField]
-    public List<ColorData> m_ColorKeys;
-
-    [SerializeField]
-    private List<AlphaData> m_AlphaKeys;
 
     // Use this for initialization
     void Start()
@@ -73,11 +54,16 @@ public class MeshParticleRender : MonoBehaviour
                 particleObject.transform.localScale = new Vector3(scale, scale, scale);
                 
                 MeshRenderer meshRender = particleObject.renderer as MeshRenderer;
-                Color col = p.color;
-                col.a = p.lifetime / p.startLifetime;
+                float time = NormalizeTime(p);
+                Color col = Grad.Evaluate(time);
                 meshRender.sharedMaterial.SetColor("_TintColor", col);
             }
         }
+    }
+
+    private float NormalizeTime(ParticleSystem.Particle particle)
+    {
+        return (particle.startLifetime - particle.lifetime) / particle.startLifetime;
     }
 
     void RemoveSubParticles()
