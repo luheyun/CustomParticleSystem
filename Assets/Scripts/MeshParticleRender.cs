@@ -27,9 +27,6 @@ public class MeshParticleRender : MonoBehaviour
     {
         if (m_ParticleSystem == null)
             m_ParticleSystem = GetComponent<ParticleSystem>();
-
-        if (m_Particles == null || m_Particles.Length < m_ParticleSystem.maxParticles)
-            m_Particles = new ParticleSystem.Particle[m_ParticleSystem.maxParticles];
     }
 
     void LateUpdate()
@@ -92,7 +89,10 @@ public class MeshParticleRender : MonoBehaviour
 
     void ResetSubParticles()
     {
-        if (particleMesh == null || maximumParticles <= 0) return;
+        if (particleMesh == null || maximumParticles <= 0 || m_ParticleSystem == null) return;
+
+        if (m_Particles == null || m_Particles.Length < m_ParticleSystem.maxParticles)
+            m_Particles = new ParticleSystem.Particle[m_ParticleSystem.maxParticles];
 
         RemoveSubParticles();
 
