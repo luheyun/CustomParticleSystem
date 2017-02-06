@@ -13,6 +13,8 @@ public class MeshParticleRender : MonoBehaviour
     public Material[] particleMaterials;
     GameObject[] particlePool;
     ParticleSystem.Particle[] m_Particles;
+    private int m_CurUpdateFrameNum = 0;
+    private const int UPDATE_FRAME_SPAN = 3;
 
     // Use this for initialization
     void Start()
@@ -33,6 +35,9 @@ public class MeshParticleRender : MonoBehaviour
     void LateUpdate()
     {
         if (particleMesh == null || maximumParticles <= 0) return;
+
+        m_CurUpdateFrameNum = (m_CurUpdateFrameNum + 1) % UPDATE_FRAME_SPAN;
+        if (m_CurUpdateFrameNum != 0) return;
 
         InitializeIfNeeded();
         int count = m_ParticleSystem.GetParticles(m_Particles);
@@ -55,7 +60,7 @@ public class MeshParticleRender : MonoBehaviour
                 
                 MeshRenderer meshRender = particleObject.renderer as MeshRenderer;
                 float time = NormalizeTime(p);
-                Color col = Grad.Evaluate(time);
+                Color col = Grad.Evaluate(time) * m_ParticleSystem.startColor;
                 meshRender.sharedMaterial.SetColor("_TintColor", col);
             }
         }
