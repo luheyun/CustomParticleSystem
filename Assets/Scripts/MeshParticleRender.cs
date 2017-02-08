@@ -15,18 +15,23 @@ public class MeshParticleRender : MonoBehaviour
     ParticleSystem.Particle[] m_Particles;
     private int m_CurUpdateFrameNum = 0;
     private const int UPDATE_FRAME_SPAN = 3;
+    private int m_ColorPropertyId = -1;
 
     // Use this for initialization
     void Start()
     {
         InitializeIfNeeded();
         ResetSubParticles();
+        m_ColorPropertyId = Shader.PropertyToID("_TintColor"); 
     }
 
     void InitializeIfNeeded()
     {
         if (m_ParticleSystem == null)
             m_ParticleSystem = GetComponent<ParticleSystem>();
+
+        if (m_Particles == null || m_Particles.Length < m_ParticleSystem.maxParticles)
+            m_Particles = new ParticleSystem.Particle[m_ParticleSystem.maxParticles];
     }
 
     void LateUpdate()
@@ -58,7 +63,7 @@ public class MeshParticleRender : MonoBehaviour
                 MeshRenderer meshRender = particleObject.renderer as MeshRenderer;
                 float time = NormalizeTime(p);
                 Color col = Grad.Evaluate(time) * m_ParticleSystem.startColor;
-                meshRender.sharedMaterial.SetColor("_TintColor", col);
+                meshRender.sharedMaterial.SetColor(m_ColorPropertyId, col);
             }
         }
     }
@@ -89,10 +94,7 @@ public class MeshParticleRender : MonoBehaviour
 
     void ResetSubParticles()
     {
-        if (particleMesh == null || maximumParticles <= 0 || m_ParticleSystem == null) return;
-
-        if (m_Particles == null || m_Particles.Length < m_ParticleSystem.maxParticles)
-            m_Particles = new ParticleSystem.Particle[m_ParticleSystem.maxParticles];
+        if (particleMesh == null || maximumParticles <= 0) return;
 
         RemoveSubParticles();
 

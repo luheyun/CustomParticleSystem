@@ -38,7 +38,7 @@ public class MeshRenderParticleEditor : Editor
         ParticleSystemRenderer psRender = m_ParticleSystem.renderer as ParticleSystemRenderer;
         targetRender.particleMesh = psRender.mesh;
 
-        if (targetRender.particleMaterials.Length <= 0)
+        if (targetRender.particleMaterials == null || targetRender.particleMaterials.Length <= 0)
         {
             if (m_ParticleSystem)
             {
