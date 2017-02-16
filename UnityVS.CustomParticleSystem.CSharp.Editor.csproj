@@ -80,8 +80,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\GPUParticleSystem\GPUParticleSystemEditor.cs" />
     <Compile Include="Assets\Editor\GUIGradientField.cs" />
-    <Compile Include="Assets\Editor\GradientEditorWindow.cs" />
     <Compile Include="Assets\Editor\MeshRenderParticleEditor.cs" />
   </ItemGroup>
   <ItemGroup>
